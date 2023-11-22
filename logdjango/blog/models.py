@@ -3,6 +3,9 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class Post(models.Model):
     class PostStatus(models.TextChoices):
@@ -24,12 +27,12 @@ class Post(models.Model):
         def __str__(self):
             return self.title
 
-        def get_absolute_url(self):
-            return reverse('blog:post_detail',
-                           args = [
-                               self.publish.year,
-                               self.publish.strftime('%m'),
-                               self.publish.strftime('%d'),
-                               self.slug,
-                           ]
-                           )
+    def get_absolute_url(self):
+        return reverse('blog:post_detail',
+                       args = [
+                           self.publish.year,
+                           self.publish.strftime('%m'),
+                           self.publish.strftime('%d'),
+                           self.slug,
+                       ]
+                       )
